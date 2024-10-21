@@ -1,37 +1,39 @@
-function setup() {
-  createCanvas(400, 400);
-  background(150, 31, 20); 
+const canvas = document.getElementById('myCanvas');
+const ctx = canvas.getContext('2d');
 
-  let centerX = width / 2;
-  let centerY = height / 2;
+ctx.fillStyle = "black";
+ctx.fillRect(0, 0, canvas.width, canvas.height);
 
+const triangles = [
+    [{x: 100, y: 150}, {x: 250, y: 250}, {x: 100, y: 350}],
+    [{x: 400, y: 150}, {x: 250, y: 250}, {x: 400, y: 350}],
+    [{x: 250, y: 250}, {x: 100, y: 350}, {x: 250, y: 450}],
+    [{x: 250, y: 250}, {x: 400, y: 350}, {x: 250, y: 450}],
 
-  drawHalfCircle(centerX, centerY, 300, color(247, 234, 207), color(53, 122, 183)); 
+    [{x: 175, y: 200}, {x: 250, y: 250}, {x: 325, y: 200}],
+    [{x: 175, y: 200}, {x: 250, y: 250}, {x: 150, y: 300}],
+    [{x: 325, y: 200}, {x: 250, y: 250}, {x: 350, y: 300}],
+    [{x: 175, y: 300}, {x: 250, y: 250}, {x: 325, y: 300}],
+];
 
- 
-  drawHalfCircle(centerX, centerY, 240, color(34, 34, 34), color(255, 198, 68)); 
+const rhombuses = [
+    [{x: 200, y: 100}, {x: 250, y: 150}, {x: 300, y: 100}, {x: 250, y: 50}],
+    [{x: 200, y: 400}, {x: 250, y: 450}, {x: 300, y: 400}, {x: 250, y: 350}],
+    [{x: 100, y: 250}, {x: 150, y: 300}, {x: 100, y: 350}, {x: 50, y: 300}],
+    [{x: 400, y: 250}, {x: 450, y: 300}, {x: 400, y: 350}, {x: 350, y: 300}],
+];
 
-
-  drawHalfCircle(centerX, centerY, 150, color(255, 98, 63), color(255, 98, 63)); 
-
-
-  drawTriangle(centerX, centerY, 40, color(34, 34, 34)); 
+function drawPolygon(points, fillColor) {
+    ctx.fillStyle = fillColor;
+    ctx.beginPath();
+    ctx.moveTo(points[0].x, points[0].y);
+    for (let i = 1; i < points.length; i++) {
+        ctx.lineTo(points[i].x, points[i].y);
+    }
+    ctx.closePath();
+    ctx.fill();
 }
 
-function drawHalfCircle(x, y, diameter, leftColor, rightColor) {
-  noStroke();
-  
+triangles.forEach(triangle => drawPolygon(triangle, "white"));
 
-  fill(leftColor);
-  arc(x, y, diameter, diameter, PI / 2, 3 * PI / 2, PIE);
-
-  fill(rightColor);
-  arc(x, y, diameter, diameter, -PI / 2, PI / 2, PIE);
-}
-
-function drawTriangle(x, y, size, triColor) {
-  fill(triColor);
-  noStroke();
-  let h = size * sqrt(3) / 2;
-  triangle(x, y - h / 2, x - size / 2, y + h / 2, x + size / 2, y + h / 2);
-}
+rhombuses.forEach(rhombus => drawPolygon(rhombus, "white"));
